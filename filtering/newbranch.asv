@@ -1,0 +1,65 @@
+%%
+clear all;
+clc;
+
+left_x = [];
+left_y = [];
+
+right_x = [];
+right_y = [];
+
+input = {'Enter x value:','Enter y value:', 'Orientation', '#branches', 'leftangle', 'rightangle'};
+
+response = inputdlg(input);
+
+x1 = str2double(response(1));
+y1 = str2double(response(2));
+orientation = str2double(response(3));
+levels = str2double(response(4));
+ltheta = str2double(response(5));
+rtheta = str2double(response(6));
+theta = 30;
+
+left_x = [left_x,x1];
+left_y = [left_y,y1];
+
+xnew = x1+cosd(orientation)*levels;
+ynew = y1+sind(orientation)*levels;
+
+left_x = [left_x,xnew];
+left_y = [left_y,ynew];
+
+j=1;
+
+for i=levels-1:-1:0
+%     left_x = [left_x,xnew];
+    xnew = xnew+cosd(orientation+ltheta*j)*i;
+    ynew = ynew+sind(orientation+ltheta*j)*i;
+    left_x = [left_x,xnew];
+    left_y = [left_y,ynew];
+    fprintf("%d\n",i);
+    j = j+1;
+end
+
+right_x = [left_x,x1];
+left_y = [left_y,y1];
+
+xnew = x1+cosd(orientation)*levels;
+ynew = y1+sind(orientation)*levels;
+
+right_x = [right_x,xnew];
+right_y = [right_y,ynew];
+
+j=1;
+levels = str2double(response(4));
+for i=levels-1:-1:0
+%     right_x = [right_x,xnew];
+    xnew = xnew+cosd(orientation-rtheta*j)*i;
+    ynew = ynew+sind(orientation-rtheta*j)*i;
+    right_x = [right_x,xnew];
+    right_y = [right_y,ynew];
+    fprintf("%d\n",i);
+    j = j+1;
+end
+
+plot(left_x,left_y)
